@@ -15,58 +15,6 @@ ser = serial.Serial('/dev/tty.usbserial-120', 9600)  # Port adını ve baud hız
 # analogSliderValues = [0] * NUM_SLIDERS 
 # prevSliderValues = [0] * NUM_SLIDERS
 
-def scale_value(value, input_min, input_max, output_min, outpux_max):
-    return int((value - input_min) * (outpux_max - output_min) / (input_max - input_min) + output_min) 
-
-# def update_slider_values():
-#     global analogSliderValues
-
-#     for i in range(NUM_SLIDERS):
-#         analogSliderValues[i] = int(ser.readline().decode('utf-8').rstrip().split('|')[i])
-
-
-# def any_slider_value_changed():
-#     global analogSliderValues, prevSliderValues
-#     for i in range(NUM_SLIDERS):
-#         if analogSliderValues[i] != prevSliderValues[i]:
-#             prevSliderValues[i] = analogSliderValues[i]
-#             return True
-#     return False
-
-
-# def start2():
-#     try:
-#         while True:
-#             update_slider_values()
-
-#             for i in range(NUM_SLIDERS):
-#                 if analogSliderValues[i] != prevSliderValues[i]:
-#                     values_str = ', '.join(map(str, analogSliderValues))
-#                     print(f"{values_str}")
-
-#     except KeyboardInterrupt:
-#         ser.close()
-
-# def start():
-#     update_slider_values()
-
-#     if any_slider_value_changed():
-#         return tuple(analogSliderValues)
-#     else:
-#         return None
-
-# def run():
-#     try:
-#         while True:
-#             values = start()
-#             if values:
-#                 x, y, z = values
-#                 print(f"x: {x}, y: {y}, z: {z}")
-
-#     except KeyboardInterrupt:
-#         pass
-#     finally:
-#         ser.close()
 
 class pot_read:
 
@@ -122,6 +70,58 @@ class pot_read:
             pass
         finally:
             ser.close()
+
+
+# def update_slider_values():
+#     global analogSliderValues
+
+#     for i in range(NUM_SLIDERS):
+#         analogSliderValues[i] = int(ser.readline().decode('utf-8').rstrip().split('|')[i])
+
+
+# def any_slider_value_changed():
+#     global analogSliderValues, prevSliderValues
+#     for i in range(NUM_SLIDERS):
+#         if analogSliderValues[i] != prevSliderValues[i]:
+#             prevSliderValues[i] = analogSliderValues[i]
+#             return True
+#     return False
+
+
+# def start2():
+#     try:
+#         while True:
+#             update_slider_values()
+
+#             for i in range(NUM_SLIDERS):
+#                 if analogSliderValues[i] != prevSliderValues[i]:
+#                     values_str = ', '.join(map(str, analogSliderValues))
+#                     print(f"{values_str}")
+
+#     except KeyboardInterrupt:
+#         ser.close()
+
+# def start():
+#     update_slider_values()
+
+#     if any_slider_value_changed():
+#         return tuple(analogSliderValues)
+#     else:
+#         return None
+
+# def run():
+#     try:
+#         while True:
+#             values = start()
+#             if values:
+#                 x, y, z = values
+#                 print(f"x: {x}, y: {y}, z: {z}")
+
+#     except KeyboardInterrupt:
+#         pass
+#     finally:
+#         ser.close()
+
 
 
             
