@@ -8,7 +8,7 @@ def see_ports():
             print("{}: {} [{}]".format(port, desc, hwid))
 
 
-ser = serial.Serial('/dev/tty.usbserial-120', 9600)  # Port adını ve baud hızını uygun şekilde değiştirin
+# ser = serial.Serial('/dev/tty.usbserial-120', 9600)  # Port adını ve baud hızını uygun şekilde değiştirin
 # ser = serial.Serial('/dev/cu.usbserial-120', 9600)  # Port adını ve baud hızını uygun şekilde değiştirin
 
 # NUM_SLIDERS = 3 
@@ -23,6 +23,8 @@ class pot_read:
         self.NUM_SLIDERS = 3 
         self.analogSliderValues = [0] * self.NUM_SLIDERS
         self.prevSliderValues = [0] * self.NUM_SLIDERS
+        self.THRESHOLD = 1
+
 
     def see_ports(self):     
         for port, desc, hwid in sorted(ports):
@@ -36,17 +38,25 @@ class pot_read:
         # global analogSliderValues
 
         for i in range(self.NUM_SLIDERS):
-            self.analogSliderValues[i] = int(ser.readline().decode('utf-8').rstrip().split('|')[i])
+            self.analogSliderValues[i] = int(self.ser.readline().decode('utf-8').rstrip().split('|')[i])
 
     
-    def any_slider_value_changed(self):
-        # global analogSliderValues, prevSliderValues
+    # def any_slider_value_changed(self):
+    #     # global analogSliderValues, prevSliderValues
 
+    #     for i in range(self.NUM_SLIDERS):
+    #         if self.analogSliderValues[i] != self.prevSliderValues[i]:
+    #             self.prevSliderValues[i] = self.analogSliderValues[i]
+    #             return True
+    #     return False
+    
+    def any_slider_value_changed(self):
         for i in range(self.NUM_SLIDERS):
-            if self.analogSliderValues[i] != self.prevSliderValues[i]:
+            if abs(self.analogSliderValues[i] - self.prevSliderValues[i]) > self.THRESHOLD:
                 self.prevSliderValues[i] = self.analogSliderValues[i]
                 return True
         return False
+
 
 
     def start(self):
@@ -64,12 +74,17 @@ class pot_read:
                 values = self.start()
                 if values:
                     x, y, z = values
-                    print(f"x: {x}, y: {y}, z: {z}")
+
+                    x_scaled = self.scale_value(int(x),0, 1023, 0, 103)
+                    y_scaled = self.scale_value(int(y),0, 1023, 0, 103)
+                    z_scaled = self.scale_value(int(z),0, 1023, 0, 103)
+                    
+                    print(f"x: {x_scaled}, y: {y_scaled}, z: {z_scaled}")
 
         except KeyboardInterrupt:
             pass
         finally:
-            ser.close()
+            self.ser.close()
 
 
 # def update_slider_values():
@@ -136,12 +151,6 @@ if __name__ == '__main__':
         startapp.ser.close()
   
 
-# def update():
-#     pass
-
-# def check_change():
-#     pass
-
 # def start1():
 #     try:
 #         while True:
@@ -163,9 +172,9 @@ if __name__ == '__main__':
 
 
 
-    # except KeyboardInterrupt:
-    #     # Program kullanıcı tarafından kapatıldığında seriyi kapatın
-    #     ser.close()
+#     except KeyboardInterrupt:
+#         # Program kullanıcı tarafından kapatıldığında seriyi kapatın
+#         ser.close()
 
 
 x = see_ports()
