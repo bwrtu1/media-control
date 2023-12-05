@@ -11,9 +11,6 @@ def see_ports():
 # ser = serial.Serial('/dev/tty.usbserial-120', 9600)  # Port adını ve baud hızını uygun şekilde değiştirin
 # ser = serial.Serial('/dev/cu.usbserial-120', 9600)  # Port adını ve baud hızını uygun şekilde değiştirin
 
-# NUM_SLIDERS = 3 
-# analogSliderValues = [0] * NUM_SLIDERS 
-# prevSliderValues = [0] * NUM_SLIDERS
 
 
 class pot_read:
@@ -87,58 +84,6 @@ class pot_read:
             self.ser.close()
 
 
-# def update_slider_values():
-#     global analogSliderValues
-
-#     for i in range(NUM_SLIDERS):
-#         analogSliderValues[i] = int(ser.readline().decode('utf-8').rstrip().split('|')[i])
-
-
-# def any_slider_value_changed():
-#     global analogSliderValues, prevSliderValues
-#     for i in range(NUM_SLIDERS):
-#         if analogSliderValues[i] != prevSliderValues[i]:
-#             prevSliderValues[i] = analogSliderValues[i]
-#             return True
-#     return False
-
-
-# def start2():
-#     try:
-#         while True:
-#             update_slider_values()
-
-#             for i in range(NUM_SLIDERS):
-#                 if analogSliderValues[i] != prevSliderValues[i]:
-#                     values_str = ', '.join(map(str, analogSliderValues))
-#                     print(f"{values_str}")
-
-#     except KeyboardInterrupt:
-#         ser.close()
-
-# def start():
-#     update_slider_values()
-
-#     if any_slider_value_changed():
-#         return tuple(analogSliderValues)
-#     else:
-#         return None
-
-# def run():
-#     try:
-#         while True:
-#             values = start()
-#             if values:
-#                 x, y, z = values
-#                 print(f"x: {x}, y: {y}, z: {z}")
-
-#     except KeyboardInterrupt:
-#         pass
-#     finally:
-#         ser.close()
-
-
-
             
 if __name__ == '__main__': 
     startapp = pot_read()
@@ -151,37 +96,9 @@ if __name__ == '__main__':
         startapp.ser.close()
   
 
-# def start1():
-#     try:
-#         while True:
-#             serial_data = ser.readline().decode('utf-8').rstrip()
-
-#             values = serial_data.split('|')
-#             # print(serial_data)
-                
-#             global first, second, third
-#             first = scale_value(int(values[0]),0, 1023, 0, 103)
-#             second = scale_value(int(values[1]), 0, 1023, 0, 103)
-#             third = scale_value(int(values[2]), 0, 1023, 0, 103)  
-#             #evrensel olabilmesi için potansiyometrenin aldığı maks değeri al ve potans_max - y = 100 denklemi ile y yi ekrana
-#             #yazdır ve ses değerleri için kullan
-#             #ya da kalibrasyon ayarı yap
-
-#             print(first, second, third)
-            
-
-
-
-#     except KeyboardInterrupt:
-#         # Program kullanıcı tarafından kapatıldığında seriyi kapatın
-#         ser.close()
-
-
 x = see_ports()
 print(x)
 
 
 # y = run()
-
-
 
