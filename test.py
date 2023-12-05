@@ -1,4 +1,5 @@
 import psutil
+import osascript
 import subprocess
 
 def list_running_applications(target_apps):
@@ -47,9 +48,10 @@ def main():
 
         if volume_option.lower() == 'mute':
             target_volume = 50
-            vol = "set volume output volume" + str(50)
+            osascript.osascript("set volume output volume {}".format(target_volume))
             mute_spotify()
             print(f"{running_apps[selected_app_index]['name']} uygulamasının sesi kapatıldı.")
+            
         elif volume_option.lower() == 'unmute':
             # Burada seçilen uygulamanın sesini açma işlemi yapılabilir.
             print(f"{running_apps[selected_app_index]['name']} uygulamasının sesi açıldı.")
